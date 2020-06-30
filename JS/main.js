@@ -22,13 +22,13 @@ new Phaser.Game(config);
 
 function preload()
 {
-    this.load.image("body", "./assets/Body.png");
-    this.load.image("head", "./assets/Head.png");
+    this.load.image("body", "./Assets/Body.png");
+    this.load.image("head", "./Assets/Head.png");
 }
 
 function create()
 {
-    head = new Snake_head(this, 400, 300);
+    head = new Snake_head(this, 240, 240);
 }
 
 function update()
