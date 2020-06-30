@@ -35,6 +35,7 @@ export class Snake_part extends Phaser.GameObjects.Sprite
         if (!this.next)
         {
             // create a new body part based on previous_move
+            this.next = new Snake_part(this.scene, this.x - this.previous_move.x, this.y - this.previous_move.y);
         }
         else { this.next.grow(); }
     }

@@ -39,6 +39,13 @@ export class Snake_head extends Snake_part
     {
         this.move(this.next_move);
 
+        if (this.x == this.scene.food.x && this.y == this.scene.food.y)
+        {
+            this.grow();
+            // Spawn another piece of food
+        }
+            
+
         // Check collisions here ?
 
         // Check if we’ve eaten something

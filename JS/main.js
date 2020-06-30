@@ -24,11 +24,13 @@ function preload()
 {
     this.load.image("body", "./Assets/Body.png");
     this.load.image("head", "./Assets/Head.png");
+    this.load.image("food", "./Assets/Food.png");
 }
 
 function create()
 {
-    head = new Snake_head(this, 240, 240);
+    head = new Snake_head(this, 256, 256);
+    this.food = this.add.sprite(320,320, "food");
 }
 
 function update()
