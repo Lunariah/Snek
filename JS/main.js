@@ -15,6 +15,7 @@ let config =
 };
 
 var head;
+var rand;
 
 new Phaser.Game(config);
 
@@ -29,11 +30,13 @@ function preload()
 
 function create()
 {
-    head = new Snake_head(this, 256, 256);
-    this.food = this.add.sprite(320,320, "food");
+    this.rand = new Phaser.Math.RandomDataGenerator();
+    head = new Snake_head(this, 240, 240);
+    this.food = this.add.sprite(304,304, "food");
 }
 
 function update()
 {
     head.update();
 }
+

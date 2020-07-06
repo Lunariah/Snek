@@ -8,6 +8,8 @@ export class Snake_part extends Phaser.GameObjects.Sprite
         super(scene, x, y, sprite);
         scene.add.existing(this);
         scene.physics.add.existing(this);
+        //console.log("Growing at x:" + this.x + " y:" + this.y);   DEBUG
+
     }
 
     move(next_move)
@@ -16,27 +18,51 @@ export class Snake_part extends Phaser.GameObjects.Sprite
         this.x += next_move.x;
         this.y += next_move.y;
 
-        if (next_move.x < 0)
-            this.setAngle(270);
-        else if (next_move.x >0)
-            this.setAngle(90);
-        else if (next_move.y < 0)
-            this.setAngle(0);
-        else if (next_move.y > 0)
-            this.setAngle(180);
+        /*
+        if (this.next)
+        {
+            
+            this.scene.time.addEvent({
+                delay: 200,
+                callback: function() {this.next.move(this.previous_move); this.previous_move = next_move;}
+                    ,
+                callbackScope: this
+            });
+            
+        }
+        else   
+            this.previous_move = next_move;
+        */
+       // Yeah that was a bad idea
 
-        if (this.next != null)
-            this.next.move(this.previous_move);
-        this.previous_move = next_move;
+       if(this.next)
+       {
+           this.next.move(this.previous_move);
+       }
+       this.previous_move = next_move;
     }
 
     grow()
     {
         if (!this.next)
         {
-            // create a new body part based on previous_move
             this.next = new Snake_part(this.scene, this.x - this.previous_move.x, this.y - this.previous_move.y);
         }
         else { this.next.grow(); }
+    }
+
+    check_collisions(x, y)  // Why use the physics engine when this is so much lighter
+    {
+        if ((this.x == x && this.y == y))
+        {
+            return true;
+        }
+
+        if (this.next)
+        {
+            return this.next.check_collisions(x, y);
+        }
+        else
+            return false;
     }
 }
