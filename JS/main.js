@@ -5,8 +5,8 @@ import { Snake_head } from "./snake_head.js"
 let config = 
 {
     type: Phaser.AUTO,
-    width: 480,
-    height: 480,
+    width: 6 * 32,
+    height: 6 * 32, // At least one side must have an even number of squares for the game to be always winnable
     physics: { default: `arcade` },
     scene: { 
             preload: preload,
@@ -31,8 +31,8 @@ function preload()
 function create()
 {
     this.rand = new Phaser.Math.RandomDataGenerator();
-    head = new Snake_head(this, 240, 240);
-    this.food = this.add.sprite(304,304, "food");
+    head = new Snake_head(this, 144, 144);
+    this.food = this.add.sprite(16,16, "food");
 }
 
 function update()

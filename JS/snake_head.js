@@ -18,7 +18,8 @@ export class Snake_head extends Snake_part
 
         // Calculate max possible length
         this.total_length = 1;
-        this.max_length = Math.floor(scene.game.config.width / this.MOVE) * Math.floor(scene.game.config.length / this.MOVE);
+        this.max_length = Math.floor(scene.game.config.width / this.MOVE) * Math.floor(scene.game.config.height / this.MOVE);
+        console.log(this.max_length);
 
         // Create game tick timer
         this.tick_timer = scene.time.addEvent({
