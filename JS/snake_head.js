@@ -34,6 +34,22 @@ export class Snake_head extends Snake_part
         this.previous_move = {x:0, y: -this.MOVE};
     }
 
+    grow()
+    {
+        if (!this.next)
+            this.setTexture("head2");
+        super.grow();
+    }
+
+    death()
+    {
+        this.tick_timer.paused = true;
+        if (!this.next)
+            this.setTexture("head_bonk");
+        else
+            this.setTexture("head2_bonk");
+    }
+
     update()
     {
         if(this.keyboard.right.isDown && this.previous_move.x >= 0)
@@ -63,7 +79,7 @@ export class Snake_head extends Snake_part
         let next_dest = {x: this.x + this.next_move.x, y: this.y + this.next_move.y};
         if (next_dest.x < 0 || next_dest.x > this.scene.game.config.width || next_dest.y < 0 || next_dest.y > this.scene.game.config.height)
         {    
-            this.tick_timer.paused = true;
+            this.death();
             return;
         }
 
@@ -71,7 +87,7 @@ export class Snake_head extends Snake_part
         if (this.next)
             if (this.next.check_collisions(this.x + this.next_move.x, this.y + this.next_move.y))
             {
-                this.tick_timer.paused = true;
+                this.death();
                 return;
             }
 
