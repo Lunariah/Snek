@@ -19,8 +19,8 @@ export class Snake_head extends Snake_part
 
         // Calculate max possible length
         this.total_length = 1;
-        this.max_length = 120;                          // CHANGE THAT
-        //console.log(this.max_length);
+        this.max_length = scene.game_frame.width/32 * scene.game_frame.height/32;
+        console.log(this.max_length);
 
         // Create game tick timer
         this.tick_timer = scene.time.addEvent({
@@ -31,10 +31,12 @@ export class Snake_head extends Snake_part
         })
 
         // Set initial direction
-        this.next_move = {x:0, y: -this.MOVE};
-        this.previous_move = {x:0, y: -this.MOVE};
+        this.next_move = {x:0, y: this.MOVE};
+        this.previous_move = {x:0, y: this.MOVE};
+        this.setAngle(180);
 
         this.just_ate = false;
+        this.spawn_food();
     }
 
     grow()
@@ -53,6 +55,18 @@ export class Snake_head extends Snake_part
             this.setTexture("head2_bonk");
         console.log("Game Over!\nScore: " + (this.total_length-1) + "/"+ (this.max_length-1));
 
+    }
+
+    spawn_food()
+    {
+        let frame = this.scene.game_frame;
+        var new_food = {x:0, y:0};
+        do{
+            new_food.x = Phaser.Math.RND.between(1, frame.width/32)*32 + frame.x - 16;
+            new_food.y = Phaser.Math.RND.between(1, frame.height/32)*32 + frame.y - 16;
+        } while (this.check_collisions(new_food.x, new_food.y));
+        this.scene.food = this.scene.add.sprite(new_food.x, new_food.y, "food");
+        console.log("Spawning food at x:" + new_food.x + " y:" + new_food.y);
     }
 
     update()
@@ -84,7 +98,7 @@ export class Snake_head extends Snake_part
 
         // Check for collisions with the walls
         let next_dest = {x: this.x + this.next_move.x, y: this.y + this.next_move.y};
-        let frame = this.scene.game_frame;
+        let frame = this.scene.game_frame; // Yes I’m doing it every update. Because I’m sick of this.
 
         if (next_dest.x < frame.x || next_dest.x > frame.x + frame.width || next_dest.y < frame.y || next_dest.y > frame.y + frame.height)
         {    
@@ -116,15 +130,8 @@ export class Snake_head extends Snake_part
             }
             else
             {
-                // Spawn another piece of food
                 this.scene.food.destroy();
-                var new_food = {x:0, y:0};
-                do{
-                    new_food.x = Math.floor(this.scene.rand.between(frame.x, frame.x + frame.width - this.MOVE) / this.MOVE) * this.MOVE + this.MOVE/2;
-                    new_food.y = Math.floor(this.scene.rand.between(frame.y, frame.y + frame.height - this.MOVE) / this.MOVE) * this.MOVE + this.MOVE/2;
-                } while (this.check_collisions(new_food.x, new_food.y));
-                this.scene.food = this.scene.add.sprite(new_food.x, new_food.y, "food");
-                //console.log("Spawning food at x:" + new_food.x + " y:" + new_food.y);
+                this.spawn_food();
             }
         }
     }

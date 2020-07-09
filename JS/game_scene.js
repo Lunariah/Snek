@@ -33,11 +33,11 @@ export class Game_scene extends Phaser.Scene
         switch (this.difficulty)
         {
             case 1:
-                
+                this.game_frame = {x: 32*3 + 16, y: 32*3 + 16, width: 192, height: 192};
                 this.load.image("background", "./Assets/Background/6x6.png");
                 break;
             case 2:
-
+                this.game_frame = {x: 64, y:80, width: 288, height: 256};
                 this.load.image("background", "./Assets/Background/9x8.png");
                 break;
             case 3:
@@ -53,8 +53,7 @@ export class Game_scene extends Phaser.Scene
         
         this.add.sprite(this.game.config.width/2, this.game.config.height/2, "frame");
         this.add.sprite(this.game_frame.x + this.game_frame.width/2, this.game_frame.y + this.game_frame.height/2, "background");
-        this.head = new Snake_head(this, 144, 144);
-        this.food = this.add.sprite(80, 80, "food");
+        this.head = new Snake_head(this, this.game_frame.x + 160 + 16, this.game_frame.y + 16);
     }
 
     update()
