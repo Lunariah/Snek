@@ -10,6 +10,7 @@ export class Snake_head extends Snake_part
     tick_timer;
     total_length; // Length of the snake
     max_length; // Max length of the snake
+    just_ate; // Used to know when to update the score
 
     constructor(scene, x, y)
     {
@@ -18,8 +19,8 @@ export class Snake_head extends Snake_part
 
         // Calculate max possible length
         this.total_length = 1;
-        this.max_length = Math.floor(scene.game.config.width / this.MOVE) * Math.floor(scene.game.config.height / this.MOVE);
-        console.log(this.max_length);
+        this.max_length = 120;                          // CHANGE THAT
+        //console.log(this.max_length);
 
         // Create game tick timer
         this.tick_timer = scene.time.addEvent({
@@ -32,6 +33,8 @@ export class Snake_head extends Snake_part
         // Set initial direction
         this.next_move = {x:0, y: -this.MOVE};
         this.previous_move = {x:0, y: -this.MOVE};
+
+        this.just_ate = false;
     }
 
     grow()
@@ -48,10 +51,14 @@ export class Snake_head extends Snake_part
             this.setTexture("head_bonk");
         else
             this.setTexture("head2_bonk");
+        console.log("Game Over!\nScore: " + (this.total_length-1) + "/"+ (this.max_length-1));
+
     }
 
     update()
     {
+        //this.just_ate = false;
+
         if(this.keyboard.right.isDown && this.previous_move.x >= 0)
             this.next_move = {x: this.MOVE, y:0};
         else if(this.keyboard.left.isDown && this.previous_move.x <= 0)
@@ -77,7 +84,9 @@ export class Snake_head extends Snake_part
 
         // Check for collisions with the walls
         let next_dest = {x: this.x + this.next_move.x, y: this.y + this.next_move.y};
-        if (next_dest.x < 0 || next_dest.x > this.scene.game.config.width || next_dest.y < 0 || next_dest.y > this.scene.game.config.height)
+        let frame = this.scene.game_frame;
+
+        if (next_dest.x < frame.x || next_dest.x > frame.x + frame.width || next_dest.y < frame.y || next_dest.y > frame.y + frame.height)
         {    
             this.death();
             return;
@@ -99,6 +108,7 @@ export class Snake_head extends Snake_part
         {
             this.grow();
             this.total_length++;
+            this.just_ate = true;
 
             if (this.total_length == this.max_length)
             {
@@ -110,11 +120,11 @@ export class Snake_head extends Snake_part
                 this.scene.food.destroy();
                 var new_food = {x:0, y:0};
                 do{
-                    new_food.x = Math.floor(this.scene.rand.between(0, this.scene.game.config.width - this.MOVE) / this.MOVE) * this.MOVE + this.MOVE/2;
-                    new_food.y = Math.floor(this.scene.rand.between(0, this.scene.game.config.height - this.MOVE) / this.MOVE) * this.MOVE + this.MOVE/2;
+                    new_food.x = Math.floor(this.scene.rand.between(frame.x, frame.x + frame.width - this.MOVE) / this.MOVE) * this.MOVE + this.MOVE/2;
+                    new_food.y = Math.floor(this.scene.rand.between(frame.y, frame.y + frame.height - this.MOVE) / this.MOVE) * this.MOVE + this.MOVE/2;
                 } while (this.check_collisions(new_food.x, new_food.y));
                 this.scene.food = this.scene.add.sprite(new_food.x, new_food.y, "food");
-                console.log("Spawning food at x:" + new_food.x + " y:" + new_food.y);
+                //console.log("Spawning food at x:" + new_food.x + " y:" + new_food.y);
             }
         }
     }
