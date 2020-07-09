@@ -1,37 +1,43 @@
+import { Game_scene } from "./game_scene.js";
+
 export class Menu_scene extends Phaser.Scene
 {
     button; button2; button3;
     
     constructor()
     {
-        var config = {
-            key: "Menu",
-            active: true
-        } 
-        super(config);
+        super({key:"Menu"});
 
-        this.mouse = {x:0, y:0};
+        this.button1 = {minX: 58, minY: 28, maxX: 358, maxY: 128};
+        this.button2 = {minX: 58, minY: 158, maxX: 358, maxY: 258};
+        this.button3 = {minX: 58, minY: 288, maxX: 358, maxY: 388};
     }
 
     preload()
     {
-        this.load.image("impossible", "./Assets/Buttons/Impossible.png");
+        this.load.image("menu", "./Assets/Menu.png");
     }
 
     create()
     {
-        this.button = {};
-        this.button2 = {};
-        this.button3 = {minX: 40, minY: 50, maxX: 190, maxY: 100};
-
-        this.add.sprite((this.button3.maxX + this.button3.minX)/2, (this.button3.maxY + this.button3.minY)/2, "impossible");
+        this.add.sprite(this.game.config.width/2, this.game.config.height/2, "menu");
 
         this.input.on("pointerdown", function(pointer){this.on_click(pointer)}, this);
     }
 
     on_click(pointer)
     {
-        if(pointer.x > this.button3.minX && pointer.x < this.button3.maxX && pointer.y > this.button3.minY && pointer.y < this.button3.maxY)
-                this.scene.start("Game");
+        if(pointer.x > this.button1.minX && pointer.x < this.button1.maxX && pointer.y > this.button1.minY && pointer.y < this.button1.maxY)
+            this.scene.add("Game", new Game_scene(1));
+        
+        else if(pointer.x > this.button2.minX && pointer.x < this.button2.maxX && pointer.y > this.button2.minY && pointer.y < this.button2.maxY)
+            this.scene.add("Game", new Game_scene(2));
+
+        else if(pointer.x > this.button3.minX && pointer.x < this.button3.maxX && pointer.y > this.button3.minY && pointer.y < this.button3.maxY)
+            this.scene.add("Game", new Game_scene(3));
+        else
+            return;
+
+        this.scene.start("Game");
     }
 }

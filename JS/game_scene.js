@@ -1,4 +1,3 @@
-import { Snake_part } from "./snake_part.js"
 import { Snake_head } from "./snake_head.js"
 
 export class Game_scene extends Phaser.Scene

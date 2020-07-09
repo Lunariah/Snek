@@ -9,13 +9,9 @@ Use the built-in random number generator
 
 
 import "./phaser.min.js"
-//import { Snake_part } from "./snake_part.js"
-//import { Snake_head } from "./snake_head.js"
-import { Game_scene } from "./game_scene.js"
 import { Menu_scene } from "./menu_scene.js"
 
 var menu_scene = new Menu_scene();
-var game_scene = new Game_scene(1);
 
 let config = 
 {
@@ -27,7 +23,7 @@ let config =
     // Impossible:  11x11
     backgroundColor: "2dc122",
     physics: { default: `arcade` },
-    scene: [game_scene] 
+    scene: [menu_scene] 
 };
 
 new Phaser.Game(config);

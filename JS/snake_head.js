@@ -20,7 +20,6 @@ export class Snake_head extends Snake_part
         // Calculate max possible length
         this.total_length = 1;
         this.max_length = scene.game_frame.width/32 * scene.game_frame.height/32;
-        console.log(this.max_length);
 
         // Create game tick timer
         this.tick_timer = scene.time.addEvent({
@@ -66,7 +65,7 @@ export class Snake_head extends Snake_part
             new_food.y = Phaser.Math.RND.between(1, frame.height/32)*32 + frame.y - 16;
         } while (this.check_collisions(new_food.x, new_food.y));
         this.scene.food = this.scene.add.sprite(new_food.x, new_food.y, "food");
-        console.log("Spawning food at x:" + new_food.x + " y:" + new_food.y);
+        //console.log("Spawning food at x:" + new_food.x + " y:" + new_food.y);
     }
 
     update()
