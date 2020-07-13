@@ -20,7 +20,7 @@ export class Menu_scene extends Phaser.Scene
 
     create()
     {
-        this.add.sprite(this.game.config.width/2, this.game.config.height/2, "menu");
+        this.add.sprite(208, 208, "menu");
 
         this.input.on("pointerdown", function(pointer){this.on_click(pointer)}, this);
     }
