@@ -8,9 +8,9 @@ export class Menu_scene extends Phaser.Scene
     {
         super({key:"Menu"});
 
-        this.button1 = {minX: 58, minY: 28, maxX: 358, maxY: 128};
-        this.button2 = {minX: 58, minY: 158, maxX: 358, maxY: 258};
-        this.button3 = {minX: 58, minY: 288, maxX: 358, maxY: 388};
+        this.button1 = {minX: 88, minY: 28, maxX: 488, maxY: 128};
+        this.button2 = {minX: 88, minY: 158, maxX: 488, maxY: 258};
+        this.button3 = {minX: 88, minY: 288, maxX: 488, maxY: 388};
     }
 
     preload()
@@ -20,7 +20,7 @@ export class Menu_scene extends Phaser.Scene
 
     create()
     {
-        this.add.sprite(208, 208, "menu");
+        this.add.sprite(288, 208, "menu");
 
         this.input.on("pointerdown", function(pointer){this.on_click(pointer)}, this);
     }

@@ -1,11 +1,9 @@
 /*     TODO
 
-Cancel everything I just did because you don’t actually need to show the score in a Snake. The score is the Snake.
-
-Redo the menu
 
 Add sound
 
+Add keys to interface
 
 
 */
@@ -25,7 +23,7 @@ var menu_scene = new Menu_scene();
 let config = 
 {
     type: Phaser.AUTO,
-    width: 416, //576
+    width: 576,
     height: 416,
     backgroundColor: "84e37d",
     physics: { default: `arcade` },
