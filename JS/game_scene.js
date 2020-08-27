@@ -3,10 +3,12 @@ import { Snake_head } from "./snake_head.js"
 export class Game_scene extends Phaser.Scene
 {
     difficulty; // Chosen game difficulty
-    game_frame;
+    game_frame; // The space in which the game will take place
+    score; // Text object displaying the score
     head; // Snake_head
     food; // Current objective
-    score; // Text object displaying the score
+    death_sound;
+    score_sound;
 
     constructor(difficulty)
     {
@@ -23,6 +25,8 @@ export class Game_scene extends Phaser.Scene
         this.load.image("head_bonk", "./Assets/Head_bonk.png");
         this.load.image("head2_bonk", "./Assets/Head2_bonk.png");
         this.load.image("food", "./Assets/Food.png");
+        this.load.audio("bonk", ["./Assets/Sound/127149__daphne-in-wonderland__ding.ogg", "./Assets/Sound/127149__daphne-in-wonderland__ding.mp3"]);
+        this.load.audio("eat", ["./Assets/Sound/144320__fumiya112__pow.ogg", ".Assets/Sound/144320__fumiya112__pow.mp3"]);
         
 
         switch (this.difficulty)
@@ -47,6 +51,10 @@ export class Game_scene extends Phaser.Scene
 
     create()
     {        
+        // Audio
+        this.death_sound = this.sound.add("bonk");
+        this.score_sound = this.sound.add("eat");
+        
         // Background
         this.add.sprite(this.game_frame.x + this.game_frame.width/2, this.game_frame.y + this.game_frame.height/2, "background");
 

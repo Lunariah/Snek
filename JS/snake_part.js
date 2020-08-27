@@ -15,7 +15,7 @@ export class Snake_part extends Phaser.GameObjects.Sprite
         this.x += move.x;
         this.y += move.y;
 
-       if(this.next)
+       if(this.next != null)
            this.next.move(this.previous_move);
 
        this.previous_move = move;
@@ -23,7 +23,7 @@ export class Snake_part extends Phaser.GameObjects.Sprite
 
     grow()
     {
-        if (this.next)
+        if (this.next != null)
             this.next.grow();
         else
             this.next = new Snake_part(this.scene, this.x - this.previous_move.x, this.y - this.previous_move.y);  
@@ -33,8 +33,7 @@ export class Snake_part extends Phaser.GameObjects.Sprite
     {
         if ((this.x == x && this.y == y))
             return true;
-
-        if (this.next)
+        else if (this.next != null)
             return this.next.check_collisions(x, y);
         else
             return false;

@@ -37,22 +37,30 @@ export class Snake_head extends Snake_part
 
     grow()
     {
-        if (!this.next)
+        if (this.next != null)
+        {
+            this.next.grow();
+        }
+        else
+        {
             this.setTexture("head2");
+            this.next = new Snake_part(this.scene, this.x - this.previous_move.x, this.y - this.previous_move.y); 
+        }
 
         this.total_length++;
         this.scene.update_score(this.total_length - 1, this.max_length - 1);
-        super.grow();
     }
 
     death()
     {
         this.tick_timer.paused = true;
-        if (!this.next)
-            this.setTexture("head_bonk");
-        else
+        this.scene.death_sound.play();
+        if (this.next != null)
             this.setTexture("head2_bonk");
-        console.log("Game Over!\nScore: " + (this.total_length-1) + "/"+ (this.max_length-1));
+        else
+            this.setTexture("head_bonk");
+
+        //console.log("Game Over!\nScore: " + (this.total_length-1) + "/"+ (this.max_length-1));
 
     }
 
@@ -90,7 +98,7 @@ export class Snake_head extends Snake_part
         else if (this.next_move.y < 0)
             this.setAngle(0);
         else if (this.next_move.y > 0)
-            this.setAngle(180);         // This could also go in update()
+            this.setAngle(180);
                                 
 
         // Check for collisions with the walls
@@ -118,7 +126,7 @@ export class Snake_head extends Snake_part
         if (this.x == this.scene.food.x && this.y == this.scene.food.y)
         {
             this.grow();
-            this.just_ate = true;
+            this.scene.score_sound.play();
 
             if (this.total_length == this.max_length)
             {
