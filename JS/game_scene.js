@@ -5,10 +5,12 @@ export class Game_scene extends Phaser.Scene
     difficulty; // Chosen game difficulty
     game_frame; // The space in which the game will take place
     score; // Text object displaying the score
+    reset; // Reset button
     head; // Snake_head
     food; // Current objective
     death_sound;
     score_sound;
+    sceneManager;
 
     constructor(difficulty)
     {
@@ -19,6 +21,7 @@ export class Game_scene extends Phaser.Scene
     
     preload()
     {
+        this.load.image("reset", "./Assets/Background/Reset_128x64.png");
         this.load.image("body", "./Assets/Body.png");
         this.load.image("head", "./Assets/Head.png");
         this.load.image("head2", "./Assets/Head2.png");
@@ -68,6 +71,12 @@ export class Game_scene extends Phaser.Scene
         this.score = this.add.text(480,132, "", { fontFamily: "Arial", fontSize: font_size, fontStyle: "Bold", color:"#2dc122", align: "center" });
         this.score.setOrigin(0.5, 0.5);
 
+        // Reset button
+        this.reset = this.add.sprite(480, 312, "reset")
+            .setInteractive()
+            .on("pointerdown", function(){this.reset_room()}, this);
+            // Look into on() doc and scope of JS methods
+
         // Start game
         this.head = new Snake_head(this, this.game_frame.x + 160 + 16, this.game_frame.y + 16);
         this.head.spawn_food();
@@ -81,5 +90,10 @@ export class Game_scene extends Phaser.Scene
     update_score(score, max_score)
     {
         this.score.setText(score + "/" + max_score);
+    }
+
+    reset_room()
+    {
+        this.scene.restart();
     }
 }
