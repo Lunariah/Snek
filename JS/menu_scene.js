@@ -21,8 +21,14 @@ export class Menu_scene extends Phaser.Scene
     create()
     {
         this.add.sprite(288, 208, "menu");
-
         this.input.on("pointerdown", function(pointer){this.on_click(pointer)}, this);
+        
+        if (this.game.scene.getScene("Game") != null)
+        {
+            this.game.scene.remove("Game");
+            this.textures.remove("background");
+            this.textures.remove("score_frame");
+        }       
     }
 
     on_click(pointer)

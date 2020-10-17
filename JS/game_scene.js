@@ -17,6 +17,8 @@ export class Game_scene extends Phaser.Scene
         super({key: "Game"});
 
         this.difficulty = difficulty;
+
+        console.log("Loading game with difficulty " + difficulty);
     }
     
     preload()
@@ -74,12 +76,11 @@ export class Game_scene extends Phaser.Scene
         // Reset button
         this.reset = this.add.sprite(480, 312, "reset")
             .setInteractive()
-            .on("pointerdown", function(){this.reset_room()}, this);
-            // Look into on() doc and scope of JS methods
+            .on("pointerdown", function(){this.scene.start("Menu")}, this);
 
         // Start game
         this.head = new Snake_head(this, this.game_frame.x + 160 + 16, this.game_frame.y + 16);
-        this.head.spawn_food();
+        this.spawn_food();
     }
 
     update()
@@ -90,10 +91,22 @@ export class Game_scene extends Phaser.Scene
     update_score(score, max_score)
     {
         this.score.setText(score + "/" + max_score);
+
+        if (score >= max_score)
+        {
+            this.scene.start("Victory");
+        }
     }
 
-    reset_room()
+    spawn_food()
     {
-        this.scene.restart();
+        let frame = this.game_frame;
+        var new_food = {x:0, y:0};
+        do{
+            new_food.x = Phaser.Math.RND.between(1, frame.width/32)*32 + frame.x - 16;
+            new_food.y = Phaser.Math.RND.between(1, frame.height/32)*32 + frame.y - 16;
+        } while (this.head.check_collisions(new_food.x, new_food.y));
+        this.food = this.add.sprite(new_food.x, new_food.y, "food");
+        //console.log("Spawning food at x:" + new_food.x + " y:" + new_food.y);
     }
 }

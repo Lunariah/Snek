@@ -64,18 +64,6 @@ export class Snake_head extends Snake_part
 
     }
 
-    spawn_food()
-    {
-        let frame = this.scene.game_frame;
-        var new_food = {x:0, y:0};
-        do{
-            new_food.x = Phaser.Math.RND.between(1, frame.width/32)*32 + frame.x - 16;
-            new_food.y = Phaser.Math.RND.between(1, frame.height/32)*32 + frame.y - 16;
-        } while (this.check_collisions(new_food.x, new_food.y));
-        this.scene.food = this.scene.add.sprite(new_food.x, new_food.y, "food");
-        //console.log("Spawning food at x:" + new_food.x + " y:" + new_food.y);
-    }
-
     update()
     {
         if(this.keyboard.right.isDown && this.previous_move.x >= 0)
@@ -125,18 +113,11 @@ export class Snake_head extends Snake_part
         // Check for collision with the food
         if (this.x == this.scene.food.x && this.y == this.scene.food.y)
         {
+            this.scene.food.destroy();
             this.grow();
             this.scene.score_sound.play();
-
-            if (this.total_length == this.max_length)
-            {
-                alert("Yay we won");
-            }
-            else
-            {
-                this.scene.food.destroy();
-                this.spawn_food();
-            }
+            if (this.total_length < this.max_length) 
+                this.scene.spawn_food();
         }
     }
 }
