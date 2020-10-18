@@ -19,4 +19,3 @@ export class Victory_scene extends Phaser.Scene
         .on("pointerdown", function(){this.scene.start("Menu")}, this);
     }
 }
-

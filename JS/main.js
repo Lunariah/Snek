@@ -1,11 +1,3 @@
-/*
-
-TODO:
-
-Victory screen
-
-*/
-
 import "./Phaser/phaser.min.js"
 import { Menu_scene } from "./menu_scene.js"
 import { Victory_scene } from"./victory_scene.js"

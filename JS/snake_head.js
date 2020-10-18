@@ -59,9 +59,6 @@ export class Snake_head extends Snake_part
             this.setTexture("head2_bonk");
         else
             this.setTexture("head_bonk");
-
-        //console.log("Game Over!\nScore: " + (this.total_length-1) + "/"+ (this.max_length-1));
-
     }
 
     update()
@@ -91,7 +88,7 @@ export class Snake_head extends Snake_part
 
         // Check for collisions with the walls
         let next_dest = {x: this.x + this.next_move.x, y: this.y + this.next_move.y};
-        let frame = this.scene.game_frame; // Making a new variable every tick because I’m sick of this.
+        let frame = this.scene.game_frame; // I’m just so sick of this.
 
         if (next_dest.x < frame.x || next_dest.x > frame.x + frame.width || next_dest.y < frame.y || next_dest.y > frame.y + frame.height)
         {    

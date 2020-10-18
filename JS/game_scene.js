@@ -10,15 +10,12 @@ export class Game_scene extends Phaser.Scene
     food; // Current objective
     death_sound;
     score_sound;
-    sceneManager;
 
     constructor(difficulty)
     {
         super({key: "Game"});
 
         this.difficulty = difficulty;
-
-        console.log("Loading game with difficulty " + difficulty);
     }
     
     preload()
@@ -33,11 +30,10 @@ export class Game_scene extends Phaser.Scene
         this.load.audio("bonk", ["./Assets/Sound/127149__daphne-in-wonderland__ding.ogg", "./Assets/Sound/127149__daphne-in-wonderland__ding.mp3"]);
         this.load.audio("eat", ["./Assets/Sound/144320__fumiya112__pow.ogg", ".Assets/Sound/144320__fumiya112__pow.mp3"]);
         
-
         switch (this.difficulty)
         {
             case 1:
-                this.game_frame = {x: 112, y: 112, width: 192, height: 192};  // Width and Height must always be multiples of 32 or spawn_food() will bug
+                this.game_frame = {x: 112, y: 112, width: 192, height: 192};  // Width and Height must always be multiples of 32
                 this.load.image("background", "./Assets/Background/6x6.png");
                 this.load.image("score_frame", "./Assets/Background/Score_frame_128x64.png");
                 break;
@@ -68,7 +64,7 @@ export class Game_scene extends Phaser.Scene
             var font_size = "40px";
         else
             var font_size = "36px";
-        
+
         this.add.sprite(480, 132, "score_frame");
         this.score = this.add.text(480,132, "", { fontFamily: "Arial", fontSize: font_size, fontStyle: "Bold", color:"#2dc122", align: "center" });
         this.score.setOrigin(0.5, 0.5);
@@ -106,7 +102,7 @@ export class Game_scene extends Phaser.Scene
             new_food.x = Phaser.Math.RND.between(1, frame.width/32)*32 + frame.x - 16;
             new_food.y = Phaser.Math.RND.between(1, frame.height/32)*32 + frame.y - 16;
         } while (this.head.check_collisions(new_food.x, new_food.y));
+        
         this.food = this.add.sprite(new_food.x, new_food.y, "food");
-        //console.log("Spawning food at x:" + new_food.x + " y:" + new_food.y);
     }
 }
